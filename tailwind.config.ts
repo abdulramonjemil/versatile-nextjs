@@ -1,20 +1,54 @@
 import type { Config } from "tailwindcss"
 
 const config: Config = {
+  // @todo starter::Change this if you use different file conventions
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/app/**/*.{ts,tsx}",
+    "./src/components/**/*.{ts,tsx}",
+    "./src/client/**/*.{tsx}",
+    "./src/server/**/*.{tsx}",
+    "./src/shared/**/*.{tsx}"
   ],
+
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
+      colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+
+        muted: "hsl(var(--muted))",
+        "muted-foreground": "hsl(var(--muted-foreground))",
+
+        card: "hsl(var(--card))",
+        "card-foreground": "hsl(var(--card-foreground))",
+
+        popover: "hsl(var(--popover))",
+        "popover-foreground": "hsl(var(--popover-foreground))",
+
+        border: "hsl(var(--border))",
+
+        input: "hsl(var(--input))",
+        concentrated: "hsl(var(--concentrated))",
+
+        primary: "hsl(var(--primary))",
+        "primary-foreground": "hsl(var(--primary-foreground))",
+
+        secondary: "hsl(var(--secondary))",
+        "secondary-foreground": "hsl(var(--secondary-foreground))",
+
+        accent: "hsl(var(--accent))",
+        "accent-foreground": "hsl(var(--accent-foreground))",
+
+        destructive: "hsl(var(--destructive))",
+        "destructive-foreground": "hsl(var(--destructive-foreground))",
+
+        ring: "hsl(var(--ring))",
+
+        radius: "hsl(var(--radius))"
       }
     }
   },
+
   plugins: []
 }
 

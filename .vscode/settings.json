@@ -1,4 +1,13 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "prettier.useEditorConfig": false
+
+  "prettier.useEditorConfig": false,
+
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.classRegex": [
+    "tw`([^`]*)",
+    ["clsx\\(([^)]*)\\)", "\"([^\"]*)\""],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
 }

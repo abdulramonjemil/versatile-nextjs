@@ -4,7 +4,12 @@ const config = {
   endOfLine: "lf",
   printWidth: 80,
   semi: false,
-  trailingComma: "none"
+  trailingComma: "none",
+
+  plugins: ["prettier-plugin-tailwindcss"],
+
+  // Configuration for TailwindCSS plugin
+  tailwindFunctions: ["clsx", "tw", "cva", "cx"]
 }
 
 export default config

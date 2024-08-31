@@ -4,11 +4,11 @@
  *
  * @param {string[]} array
  */
-function formatMultilineCommand(array, spaceIndentCount = 4) {
-  const spaceIndent = " ".repeat(spaceIndentCount)
+function formatMultilineCommand(array, indentSpaceCount = 4) {
+  const indentSpace = " ".repeat(indentSpaceCount)
   const lines = array.map((item, index) => {
     if (index === 0) return `${item}`
-    return `${spaceIndent}${item}` // Prepend an indent
+    return `${indentSpace}${item}` // Prepend an indent
   })
   return lines.join("\n")
 }

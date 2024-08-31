@@ -27,9 +27,6 @@ export default tseslint.config(
 
   {
     files: ["**/*.{js,ts,tsx}"],
-
-    // @todo starter::Review these rules to make sure they align with your guidelines
-    // Make sure to run eslint on the project after making changes
     rules: {
       "import/extensions": [
         "error",

@@ -7,5 +7,4 @@ const config = {
   trailingComma: "none"
 }
 
-// @todo starter::Review the formatting settings defined here
 export default config

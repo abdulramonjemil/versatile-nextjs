@@ -1,0 +1,11 @@
+# external dependencies
+node_modules/
+
+# husky
+.husky/
+
+# package-lock.json
+package-lock.json
+
+# nextjs
+.next/

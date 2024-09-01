@@ -1,3 +1,5 @@
+import "server-only"
+
 import { drizzle } from "drizzle-orm/neon-http"
 import { neon } from "@neondatabase/serverless"
 import { SERVER_ENV_NEON_DB_CONNECTION_STRING } from "@/server/env"

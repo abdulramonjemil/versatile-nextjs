@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/client/theme.component"
 import "./globals.css"
+import { TRPCAppProvider } from "@/trpc/client.component"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <TRPCAppProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </TRPCAppProvider>
       </body>
     </html>
   )

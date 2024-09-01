@@ -9,3 +9,6 @@ package-lock.json
 
 # nextjs
 .next/
+
+# generated files
+.generated/

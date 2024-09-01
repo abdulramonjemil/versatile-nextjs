@@ -7,9 +7,9 @@ const config: Config = {
   content: [
     "./src/app/**/*.{ts,tsx}",
     "./src/components/**/*.{ts,tsx}",
-    "./src/client/**/*.{tsx}",
-    "./src/server/**/*.{tsx}",
-    "./src/shared/**/*.{tsx}"
+    "./src/client/**/*.tsx",
+    "./src/server/**/*.tsx",
+    "./src/shared/**/*.tsx"
   ],
 
   theme: {

@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss"
-// eslint-disable-next-line import/no-extraneous-dependencies
 import animate from "tailwindcss-animate"
 
 const config: Config = {

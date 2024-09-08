@@ -29,6 +29,11 @@ export const sessionsTable = pgTable("sessions", {
     .$onUpdate(() => new Date())
 })
 
+export const schema = {
+  users: usersTable,
+  sessions: sessionsTable
+}
+
 export type UserInsert = typeof usersTable.$inferInsert
 export type UserSelect = typeof usersTable.$inferSelect
 export type SessionInsert = typeof sessionsTable.$inferInsert

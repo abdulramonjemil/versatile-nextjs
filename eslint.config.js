@@ -29,8 +29,8 @@ export default tseslint.config(
     files: ["**/*.{js,ts,tsx}"],
     rules: {
       "@typescript-eslint/no-explicit-any": ["error", { ignoreRestArgs: true }],
-
       "arrow-body-style": "off",
+
       "import/extensions": [
         "error",
         "ignorePackages",
@@ -38,9 +38,17 @@ export default tseslint.config(
       ],
 
       "import/prefer-default-export": "off",
-      "no-underscore-dangle": "off",
+      "lines-between-class-members": [
+        "error",
+        "always",
+        { exceptAfterSingleLine: true }
+      ],
 
+      "max-classes-per-file": "off",
+      "new-parens": ["error", "always"],
+      "no-underscore-dangle": "off",
       "react/destructuring-assignment": "off",
+
       "react/jsx-filename-extension": [
         "error",
         { extensions: [".jsx", ".tsx"] }

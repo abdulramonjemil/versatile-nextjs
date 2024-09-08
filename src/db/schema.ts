@@ -1,4 +1,4 @@
-import "server-only"
+import "server-cli-only"
 
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core"
 

@@ -1,6 +1,16 @@
-import "server-only"
+import "server-cli-only" // Can also be used outside Next.js
 
+import { loadEnvConfig } from "@next/env"
 import { forceGetNonEmptyString } from "@/lib/value"
+
+/**
+ * Load env like Next.js does if code isn't running in Next.js environment
+ * `process.env.NEXT_RUNTIME` is mentioned in the Next.js docs here:
+ * https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
+ */
+if (!(["nodejs", "edge"] as unknown[]).includes(process.env.NEXT_RUNTIME)) {
+  loadEnvConfig(process.cwd())
+}
 
 // Generic environment variables
 export const SERVER_ENV_NODE_ENV = process.env.NODE_ENV

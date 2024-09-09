@@ -1,12 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from "drizzle-kit"
-import { NODE_ENV_NEON_DB_CONNECTION_STRING } from "./external/env"
+import { SERVER_ENV_NEON_DB_CONNECTION_STRING } from "./src/env/server"
 
 export default defineConfig({
   schema: "./src/db/schema.ts",
   out: "./.generated/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: NODE_ENV_NEON_DB_CONNECTION_STRING
+    url: SERVER_ENV_NEON_DB_CONNECTION_STRING
   }
 })

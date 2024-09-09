@@ -3,7 +3,7 @@ import "server-cli-only"
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core"
 
 // @todo starter::Change the database schema to suit your needs
-export const usersTable = pgTable("users", {
+export const users = pgTable("users", {
   id: text("id").primaryKey(),
   email: text("email").notNull().unique(),
   firstName: text("first_name").notNull(),
@@ -14,11 +14,11 @@ export const usersTable = pgTable("users", {
     .$onUpdate(() => new Date())
 })
 
-export const sessionsTable = pgTable("sessions", {
+export const sessions = pgTable("sessions", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => users.id),
   expiresAt: timestamp("expires_at", {
     withTimezone: true,
     mode: "date"
@@ -29,12 +29,9 @@ export const sessionsTable = pgTable("sessions", {
     .$onUpdate(() => new Date())
 })
 
-export const schema = {
-  users: usersTable,
-  sessions: sessionsTable
-}
+export const schema = { users, sessions }
 
-export type UserInsert = typeof usersTable.$inferInsert
-export type UserSelect = typeof usersTable.$inferSelect
-export type SessionInsert = typeof sessionsTable.$inferInsert
-export type SessionSelect = typeof sessionsTable.$inferSelect
+export type UserInsert = typeof users.$inferInsert
+export type UserSelect = typeof users.$inferSelect
+export type SessionInsert = typeof sessions.$inferInsert
+export type SessionSelect = typeof sessions.$inferSelect

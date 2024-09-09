@@ -19,22 +19,17 @@ import {
 export async function tryFetch(
   fetcher: () => Promise<Response>
 ): Promise<
-  FunctionTrialResult<
-    Response,
-    { code: AppHTTPRequestErrorCode; value: Error },
-    "response"
-  >
+  FunctionTrialResult<Response, { code: AppHTTPRequestErrorCode; value: Error }>
 > {
-  const { data, error, success } = await tryFn(() => fetcher())
-  if (success) return { response: data, success: true }
-  return {
-    success: false,
-    error: {
-      value: error as Error,
-      code:
-        (error as Error).name === "AbortError"
-          ? AppHTTPRequestError.Codes.Aborted
-          : AppHTTPRequestError.Codes.Invalid
-    }
+  const [error, response, success] = await tryFn(() => fetcher())
+  if (success) return [null, response, true]
+
+  const err = {
+    value: error as Error,
+    code:
+      (error as Error).name === "AbortError"
+        ? AppHTTPRequestError.Codes.Aborted
+        : AppHTTPRequestError.Codes.Invalid
   }
+  return [err, null, false]
 }

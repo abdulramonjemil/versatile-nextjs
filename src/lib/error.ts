@@ -1,44 +1,31 @@
-export type FunctionTrialResult<
-  SuccessResult,
-  Err,
-  DataKey extends string = "data",
-  ErrorKey extends string = "error"
-> =
-  | ({ success: true } & { [K in DataKey]: SuccessResult } & {
-      [K in ErrorKey]?: never
-    } extends infer T
-      ? { [K in keyof T]: T[K] }
-      : never)
-  | ({ success: false } & { [K in DataKey]?: never } & {
-      [K in ErrorKey]: Err
-    } extends infer T
-      ? { [K in keyof T]: T[K] }
-      : never)
+export type FunctionTrialResult<TReturn, TError> =
+  | [error: null, output: TReturn, success: true]
+  | [error: TError, output: null, success: false]
 
-export function tryFn<SuccessResult, Err = unknown>(
-  fn: () => Promise<SuccessResult>
-): Promise<FunctionTrialResult<SuccessResult, Err>>
+// This allows distribution of TReturn in case the return type is a union of a
+// promise and non-promise value.
+// https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+type TryFnReturn<TReturn, TError> =
+  TReturn extends Promise<unknown>
+    ? Promise<FunctionTrialResult<Awaited<TReturn>, TError>>
+    : FunctionTrialResult<TReturn, TError>
 
-export function tryFn<SuccessResult, Err = unknown>(
-  fn: () => SuccessResult
-): FunctionTrialResult<SuccessResult, Err>
-
-export function tryFn(fn: () => unknown): unknown {
-  type GenericResult = FunctionTrialResult<unknown, unknown>
+export function tryFn<TReturn, TError = unknown>(
+  fn: () => TReturn
+): TryFnReturn<TReturn, TError> {
   try {
     const result = fn.call(null)
-
-    // Handle async function
     if (result instanceof Promise) {
-      return result
-        .then((res) => ({ success: true, data: res }) satisfies GenericResult)
-        .catch((error) => ({ success: false, error }) satisfies GenericResult)
+      return result.then(
+        (res) => [null, res, true],
+        (error) => [error, null, false]
+      ) as TryFnReturn<TReturn, TError>
     }
 
     // Handle sync function success
-    return { success: true, data: result } satisfies GenericResult
+    return [null, result, true] as TryFnReturn<TReturn, TError>
   } catch (error) {
     // Handle sync function error
-    return { success: false, error } satisfies GenericResult
+    return [error, null, false] as TryFnReturn<TReturn, TError>
   }
 }

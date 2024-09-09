@@ -80,8 +80,8 @@ export function decodeFromSearchParams(searchParams: URLSearchParams) {
   searchParams.forEach((value, key) => {
     // Ignore error since user may pass arbitrary data in search params
     // Further validation should be done using a library like zod with fallbacks
-    const { success, data } = tryFn(() => decodeSearchParamValue(value))
-    if (success) object[key] = data
+    const [, val, success] = tryFn(() => decodeSearchParamValue(value))
+    if (success) object[key] = val
   })
   return object
 }

@@ -28,6 +28,7 @@ export default tseslint.config(
   {
     files: ["**/*.{js,ts,tsx}"],
     rules: {
+      "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-explicit-any": ["error", { ignoreRestArgs: true }],
       "arrow-body-style": "off",
 

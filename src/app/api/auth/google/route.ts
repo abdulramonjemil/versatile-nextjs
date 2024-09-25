@@ -6,7 +6,7 @@ import {
 } from "@/server/auth/google"
 
 import { lucia } from "@/server/auth/lucia"
-import { appRouteUrls } from "@/shared/routes"
+import { homeRoute } from "@/shared/routes"
 import { generateCodeVerifier, generateState } from "arctic"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
@@ -25,7 +25,7 @@ export async function GET() {
           sessionCookie.attributes
         )
       }
-      redirect(appRouteUrls.home())
+      redirect(homeRoute().url.href)
     }
 
     const sessionCookie = lucia.createBlankSessionCookie()

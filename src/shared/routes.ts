@@ -1,29 +1,24 @@
 import { PUBLIC_ENV_APP_ORIGIN } from "@/env/shared"
 
+type RouteGetter = (...params: any[]) => { url: URL }
 const APP_ORIGIN = PUBLIC_ENV_APP_ORIGIN
+const url = (path: string) => new URL(path, APP_ORIGIN)
 
-type RouteGetter = (...params: any[]) => string
-interface RouteGetterList {
-  [x: string]: RouteGetter | RouteGetterList
-}
+export const homeRoute = (() => {
+  return { url: url("/") }
+}) satisfies RouteGetter
 
-function url(base: string) {
-  return new URL(base, APP_ORIGIN).href
-}
-
-export const appRouteUrls = {
-  // Root routes
-  home: () => url("/"),
-
-  api: {
-    // tRPC routes
-    trpcBase: () => url("/api/trpc"),
-    trpcProcedure: (procedurePath: string) => url(`/api/trpc/${procedurePath}`),
-
-    // Google OAuth routes
-    auth: {
-      googleOAuthInit: () => url("/api/auth/google"),
-      googleOAuthCallback: () => url("/api/auth/google/callback")
-    }
+/** Passing `null` as `procedurePath` gives the trpc base url */
+export const trpcProcedureRoute = ((procedurePath: string | null) => {
+  return {
+    url: url(procedurePath ? `/api/trpc/${procedurePath}` : `/api/trpc`)
   }
-} as const satisfies RouteGetterList
+}) satisfies RouteGetter
+
+export const googleOAuthInitRoute = (() => {
+  return { url: url("/api/auth/google") }
+}) satisfies RouteGetter
+
+export const googleOAuthCallbackRoute = (() => {
+  return { url: url("/api/auth/google/callback") }
+}) satisfies RouteGetter

@@ -6,7 +6,7 @@ import {
 } from "@/server/auth/google"
 import { lucia } from "@/server/auth/lucia"
 import { createUser, getUserByEmail } from "@/server/auth/user"
-import { appRouteUrls } from "@/shared/routes"
+import { homeRoute } from "@/shared/routes"
 import { OAuth2RequestError } from "arctic"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
@@ -73,5 +73,5 @@ export async function GET(request: Request) {
   )
 
   // Redirect to appropriate page
-  redirect(appRouteUrls.home())
+  redirect(homeRoute().url.href)
 }

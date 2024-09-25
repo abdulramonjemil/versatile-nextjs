@@ -1,7 +1,7 @@
 import "server-only"
 
 import { Google } from "arctic"
-import { appRouteUrls } from "@/shared/routes"
+import { googleOAuthCallbackRoute } from "@/shared/routes"
 
 import {
   SERVER_ENV_GOOGLE_OAUTH_CLIENT_ID,
@@ -35,7 +35,7 @@ import { tryFn } from "@/lib/error"
 export const googleOAuth = new Google(
   SERVER_ENV_GOOGLE_OAUTH_CLIENT_ID,
   SERVER_ENV_GOOGLE_OAUTH_CLIENT_SECRET,
-  appRouteUrls.api.auth.googleOAuthCallback()
+  googleOAuthCallbackRoute().url.href
 )
 
 export const GoogleOAuthScopes = {

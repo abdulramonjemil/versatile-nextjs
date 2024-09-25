@@ -4,7 +4,7 @@ import type { QueryClient } from "@tanstack/react-query"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
 import { createTRPCReact } from "@trpc/react-query"
-import { appRouteUrls } from "@/shared/routes"
+import { trpcProcedureRoute } from "@/shared/routes"
 import { useState } from "react"
 import { makeQueryClient } from "./shared"
 import type { TRPCAppRouter } from "./server"
@@ -41,7 +41,7 @@ export function TRPCAppProvider(
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: appRouteUrls.api.trpcBase()
+          url: trpcProcedureRoute(null).url.href
         })
       ]
     })

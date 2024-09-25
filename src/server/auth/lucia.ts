@@ -6,21 +6,24 @@ import { db } from "@/db"
 import { type SessionSelect, type UserSelect, schema } from "@/db/schema"
 
 import { Lucia, TimeSpan } from "lucia"
-import { sessionCookieConfigs } from "./session"
+import { sessionTokenCookieConfig } from "@/shared/cookies"
 
 const adapter = new DrizzlePostgreSQLAdapter(db, schema.sessions, schema.users)
-const cookieConfig = sessionCookieConfigs.token({ expires: false })
+const sessionCookieConfig = sessionTokenCookieConfig()
 
 export const lucia = new Lucia(adapter, {
-  sessionExpiresIn: new TimeSpan(2, "w"),
+  sessionExpiresIn: new TimeSpan(2, "w"), // 2 weeks
   sessionCookie: {
-    name: cookieConfig.name,
-    expires: cookieConfig.expires,
+    name: sessionCookieConfig.name,
+    // Expiration of session in the DB is more important (30 days by default).
+    // The session cookie has a long expiration (2 years according to
+    // https://lucia-auth.com/basics/configuration#sessioncookie)
+    expires: sessionCookieConfig.expires,
     attributes: {
-      sameSite: cookieConfig.sameSite,
-      secure: cookieConfig.secure,
-      domain: cookieConfig.domain,
-      path: cookieConfig.path
+      sameSite: sessionCookieConfig.sameSite,
+      secure: sessionCookieConfig.secure,
+      domain: sessionCookieConfig.domain,
+      path: sessionCookieConfig.path
     }
   },
 

@@ -5,32 +5,13 @@ import { googleOAuthCallbackRoute } from "@/shared/routes"
 
 import {
   SERVER_ENV_GOOGLE_OAUTH_CLIENT_ID,
-  SERVER_ENV_GOOGLE_OAUTH_CLIENT_SECRET,
-  SERVER_ENV_NODE_ENV
+  SERVER_ENV_GOOGLE_OAUTH_CLIENT_SECRET
 } from "@/env/server"
 
-import { appCookieNames, type CookieConfigGetterList } from "@/shared/cookies"
-import { PUBLIC_ENV_APP_HOST } from "@/env/shared"
 import { tryFetch } from "@/shared/fetch"
 import { AppHTTPResponseError } from "@/shared/errors/http"
 import { z } from "zod"
 import { tryFn } from "@/lib/error"
-
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------------------------------------
-// --------------  BASE EXPORTS  --------------
-// --------------------------------------------
 
 export const googleOAuth = new Google(
   SERVER_ENV_GOOGLE_OAUTH_CLIENT_ID,
@@ -42,66 +23,6 @@ export const GoogleOAuthScopes = {
   Email: "email",
   Profile: "profile"
 } as const
-
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// ---------------------------------------
-// --------------  COOKIES  --------------
-// ---------------------------------------
-
-export const googleOAuthCookieConfigs = {
-  // Lucia recommends Arctic for OAuth. A similar example of this cookie
-  // setting can be found in the Arctic docs:
-  // https://arctic.js.org/guides/oauth2-pkce
-  state: () => ({
-    name: appCookieNames.auth.googleOAuthState(),
-    domain: PUBLIC_ENV_APP_HOST,
-    path: "/",
-    httpOnly: true,
-    sameSite: "lax",
-    secure: SERVER_ENV_NODE_ENV === "production",
-    maxAge: 60 * 10
-  }),
-
-  // Lucia recommends Arctic for OAuth. A similar example of this cookie
-  // setting can be found in the Arctic docs:
-  // https://arctic.js.org/guides/oauth2-pkce
-  codeVerifier: () => ({
-    name: appCookieNames.auth.googleOAuthCodeVerifier(),
-    domain: PUBLIC_ENV_APP_HOST,
-    path: "/",
-    httpOnly: true,
-    sameSite: "lax",
-    secure: SERVER_ENV_NODE_ENV === "production",
-    maxAge: 60 * 10
-  })
-} as const satisfies CookieConfigGetterList
-
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// --------------
-// ----------------------------------------------
-// --------------  USER INFO/DATA  --------------
-// ----------------------------------------------
 
 /**
  * This schema is adapted from the official documentation for Google's ID token

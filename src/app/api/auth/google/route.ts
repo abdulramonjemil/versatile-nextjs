@@ -1,9 +1,10 @@
 import { tryFn } from "@/lib/error"
+import { googleOAuth, GoogleOAuthScopes } from "@/server/auth/google"
+
 import {
-  googleOAuth,
-  GoogleOAuthScopes,
-  googleOAuthCookieConfigs
-} from "@/server/auth/google"
+  googleOAuthCodeVerifierCookieConfig,
+  googleOAuthStateCookieConfig
+} from "@/shared/cookies"
 
 import { lucia } from "@/server/auth/lucia"
 import { homeRoute } from "@/shared/routes"
@@ -45,8 +46,8 @@ export async function GET() {
   })
 
   if (!authUrl) return new Response(null, { status: 500 })
-  const stateCookieConfig = googleOAuthCookieConfigs.state()
-  const verifierCookieConfig = googleOAuthCookieConfigs.codeVerifier()
+  const stateCookieConfig = googleOAuthStateCookieConfig()
+  const verifierCookieConfig = googleOAuthCodeVerifierCookieConfig()
 
   cookies().set(stateCookieConfig.name, state, {
     secure: stateCookieConfig.secure,

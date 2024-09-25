@@ -12,9 +12,6 @@ if (!(["nodejs", "edge"] as unknown[]).includes(process.env.NEXT_RUNTIME)) {
   loadEnvConfig(process.cwd())
 }
 
-// Generic environment variables
-export const SERVER_ENV_NODE_ENV = process.env.NODE_ENV
-
 // Database connection
 export const SERVER_ENV_NEON_DB_CONNECTION_STRING = forceGetNonEmptyString(
   process.env.NEON_DB_CONNECTION_STRING,

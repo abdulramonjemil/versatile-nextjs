@@ -15,3 +15,6 @@ export const PUBLIC_ENV_APP_ORIGIN = forceGetNonEmptyString(
   process.env.NEXT_PUBLIC_APP_ORIGIN,
   "app origin environment variable"
 )
+
+// Next.js makes `NODE_ENV` available everywhere, not just on the server
+export const PUBLIC_ENV_NODE_ENV = process.env.NODE_ENV

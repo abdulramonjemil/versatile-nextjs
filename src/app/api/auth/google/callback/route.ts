@@ -1,11 +1,11 @@
 import { tryFn } from "@/lib/error"
-import {
-  getGoogleUserInfo,
-  googleOAuth,
-  googleOAuthCookieConfigs
-} from "@/server/auth/google"
+import { getGoogleUserInfo, googleOAuth } from "@/server/auth/google"
 import { lucia } from "@/server/auth/lucia"
 import { createUser, getUserByEmail } from "@/server/auth/user"
+import {
+  googleOAuthCodeVerifierCookieConfig,
+  googleOAuthStateCookieConfig
+} from "@/shared/cookies"
 import { homeRoute } from "@/shared/routes"
 import { OAuth2RequestError } from "arctic"
 import { cookies } from "next/headers"
@@ -16,8 +16,8 @@ export async function GET(request: Request) {
   const code = requestURL.searchParams.get("code")
   const state = requestURL.searchParams.get("state")
 
-  const stateCookieConfig = googleOAuthCookieConfigs.state()
-  const verifierCookieConfig = googleOAuthCookieConfigs.codeVerifier()
+  const stateCookieConfig = googleOAuthStateCookieConfig()
+  const verifierCookieConfig = googleOAuthCodeVerifierCookieConfig()
   const storedState = cookies().get(stateCookieConfig.name)?.value ?? null
   const storedCodeVerifier =
     cookies().get(verifierCookieConfig.name)?.value ?? null

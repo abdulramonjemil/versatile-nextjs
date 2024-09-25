@@ -17,24 +17,18 @@ export async function GET() {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null
   if (sessionId) {
     const { session } = await lucia.validateSession(sessionId)
-    if (session !== null) {
-      if (session.fresh) {
-        const sessionCookie = lucia.createSessionCookie(session.id)
-        cookies().set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes
-        )
-      }
-      redirect(homeRoute().url.href)
-    }
+    const sessionCookie = session?.fresh
+      ? lucia.createSessionCookie(session.id)
+      : lucia.createBlankSessionCookie()
 
-    const sessionCookie = lucia.createBlankSessionCookie()
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
       sessionCookie.attributes
     )
+
+    // Choose appropriate page to redirect to e.g. based on search params
+    if (session !== null) redirect(homeRoute().url.href)
   }
 
   const state = generateState()

@@ -16,7 +16,7 @@ export interface CookieConfig {
   maxAge?: number
 }
 
-export type CookieConfigGetter = (...params: any[]) => CookieConfig
+type CookieConfigGetter = (...params: any[]) => CookieConfig
 
 export const sessionTokenCookieConfig = (() => ({
   name: "session_token",
@@ -26,7 +26,10 @@ export const sessionTokenCookieConfig = (() => ({
   sameSite: "strict",
   secure: PUBLIC_ENV_NODE_ENV === "production",
   // Session expiration should be based on DB session, not cookie, see session
-  // schema for more details
+  // schema for more details. Setting expires to false (allowed by Lucia) means
+  // we don't have to deal with update the session cookie everytime Lucia
+  // extends session expiration in the DB. This is mentioned here:
+  // https://lucia-auth.com/basics/sessions#validate-sessions
   expires: false
 })) satisfies CookieConfigGetter
 

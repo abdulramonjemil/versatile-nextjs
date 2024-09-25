@@ -62,6 +62,17 @@ function decodeSearchParamValue(value: string): unknown {
   throw new TypeError(`Cannot interprete value beginning with _: ${value}`)
 }
 
+// --------------------------------------------------------------------
+// --------------  URL SEARCH PARAMS ENCODING/DECODING  ---------------
+// --------------------------------------------------------------------
+// The exports from this file are meant to be a starting point for creating
+// typed URL search params with support for validation. The encoding function is
+// used to convert JSON values into strings to be used URL search param value,
+// while the decoding function reverses the process. This should be combined
+// with a validator like Zod for validating and providing fallback values for
+// the search params since URLs are not a sure fire way for holding state and
+// may be altered by users.
+
 /** Convert a JSON object to a valid URLSearchParams object */
 export function encodeToSearchParams(object: JSONObject) {
   const searchParams = new URLSearchParams()
@@ -83,5 +94,7 @@ export function decodeFromSearchParams(searchParams: URLSearchParams) {
     const [, val, success] = tryFn(() => decodeSearchParamValue(value))
     if (success) object[key] = val
   })
+
+  // This should be further validated with a library like Zod
   return object
 }

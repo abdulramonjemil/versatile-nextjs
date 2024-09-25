@@ -1,3 +1,5 @@
+import "server-only"
+
 import { generateIdFromEntropySize } from "lucia"
 import { eq } from "drizzle-orm"
 import { db } from "@/db"

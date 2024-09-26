@@ -22,3 +22,7 @@ export const googleOAuthInitRoute = (() => {
 export const googleOAuthCallbackRoute = (() => {
   return { url: url("/api/auth/google/callback") }
 }) satisfies RouteGetter
+
+export const logoutRoute = (() => {
+  return { url: url("/api/auth/logout") }
+}) satisfies RouteGetter

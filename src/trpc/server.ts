@@ -4,7 +4,7 @@ import { router, baseProcedure } from "./base"
 
 export const appRouter = router({
   // Make sure to remove test procedure
-  test: baseProcedure.query(() => ({ message: "Hellow world!" }))
+  test: baseProcedure.query(() => ({ message: "Hello world!" }))
 })
 
 // export type definition of API

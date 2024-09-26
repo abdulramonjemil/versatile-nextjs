@@ -3,7 +3,7 @@ import "server-only"
 import { generateIdFromEntropySize } from "lucia"
 import { eq } from "drizzle-orm"
 import { db } from "@/db"
-import { schema as t, UserInsert } from "@/db/schema"
+import { type UserInsert, usersTable } from "@/db/schema"
 import { lower } from "@/db/utils"
 
 export async function createUser(
@@ -13,7 +13,7 @@ export async function createUser(
   // https://lucia-auth.com/basics/users#create-user
   const userId = generateIdFromEntropySize(10) // 16 characters long
   const [createdUser] = await db
-    .insert(t.users)
+    .insert(usersTable)
     .values({ ...user, id: userId, email: user.email.toLowerCase() })
     .returning()
   return createdUser!
@@ -22,7 +22,7 @@ export async function createUser(
 export async function getUserByEmail(email: string) {
   const [user] = await db
     .select()
-    .from(t.users)
-    .where(eq(lower(t.users.email), email.toLowerCase()))
+    .from(usersTable)
+    .where(eq(lower(usersTable.email), email.toLowerCase()))
   return user ?? null
 }

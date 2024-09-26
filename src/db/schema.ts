@@ -4,7 +4,7 @@ import { pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core"
 import { lower } from "./utils"
 
 // @todo starter::Change the database schema to suit your needs
-export const users = pgTable(
+export const usersTable = pgTable(
   "users",
   {
     id: text("id").primaryKey(),
@@ -25,11 +25,11 @@ export const users = pgTable(
   }
 )
 
-export const sessions = pgTable("sessions", {
+export const sessionsTable = pgTable("sessions", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => usersTable.id),
   expiresAt: timestamp("expires_at", {
     withTimezone: true,
     mode: "date"
@@ -40,9 +40,9 @@ export const sessions = pgTable("sessions", {
     .$onUpdate(() => new Date())
 })
 
-export const schema = { users, sessions }
+export const schema = { usersTable, sessionsTable }
 
-export type UserInsert = typeof users.$inferInsert
-export type UserSelect = typeof users.$inferSelect
-export type SessionInsert = typeof sessions.$inferInsert
-export type SessionSelect = typeof sessions.$inferSelect
+export type UserInsert = typeof usersTable.$inferInsert
+export type UserSelect = typeof usersTable.$inferSelect
+export type SessionInsert = typeof sessionsTable.$inferInsert
+export type SessionSelect = typeof sessionsTable.$inferSelect

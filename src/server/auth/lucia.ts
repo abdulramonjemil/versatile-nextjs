@@ -3,12 +3,17 @@ import "server-only"
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle"
 import { db } from "@/db"
 
-import { type SessionSelect, type UserSelect, schema } from "@/db/schema"
+import {
+  type SessionSelect,
+  type UserSelect,
+  sessionsTable,
+  usersTable
+} from "@/db/schema"
 
 import { Lucia, TimeSpan } from "lucia"
 import { sessionTokenCookieConfig } from "@/shared/cookies"
 
-const adapter = new DrizzlePostgreSQLAdapter(db, schema.sessions, schema.users)
+const adapter = new DrizzlePostgreSQLAdapter(db, sessionsTable, usersTable)
 const sessionCookieConfig = sessionTokenCookieConfig()
 
 export const lucia = new Lucia(adapter, {

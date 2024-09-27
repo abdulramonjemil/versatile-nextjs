@@ -2,16 +2,11 @@ import "server-only"
 
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle"
 import { db } from "@/db"
-
-import {
-  type SessionSelect,
-  type UserSelect,
-  sessionsTable,
-  usersTable
-} from "@/db/schema"
+import { sessionTokenCookieConfig } from "@/shared/cookies"
+import { sessionsTable, usersTable } from "@/db/schema"
 
 import { Lucia, TimeSpan } from "lucia"
-import { sessionTokenCookieConfig } from "@/shared/cookies"
+import type { Session, User } from "./base"
 
 const adapter = new DrizzlePostgreSQLAdapter(db, sessionsTable, usersTable)
 const sessionCookieConfig = sessionTokenCookieConfig()
@@ -51,11 +46,11 @@ export const lucia = new Lucia(adapter, {
 })
 
 // Exclude fields that are automatically added by Lucia
-interface DatabaseUserAttributes extends Omit<UserSelect, "id"> {}
+interface DatabaseUserAttributes extends Omit<User, "id"> {}
 
 // Exclude fields that are automatically added by Lucia
 interface DatabaseSessionAttributes
-  extends Omit<SessionSelect, "id" | "userId" | "expiresAt"> {}
+  extends Omit<Session, "id" | "userId" | "expiresAt"> {}
 
 declare module "lucia" {
   interface Register {

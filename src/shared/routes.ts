@@ -1,7 +1,7 @@
 import { PUBLIC_ENV_APP_ORIGIN } from "@/env/shared"
 import {
   procedurePath,
-  type TRPCAppRouterProcedurePathSegments
+  type AppTRPCRouterProcedurePathSegments
 } from "@/trpc/shared"
 
 type RouteGetter = (...params: any[]) => { url: URL }
@@ -14,7 +14,7 @@ export const homeRoute = (() => {
 
 /** Passing `null` as `procedurePath` gives the trpc base url */
 export const trpcProcedureRoute = ((
-  pathSements: TRPCAppRouterProcedurePathSegments | null
+  pathSements: AppTRPCRouterProcedurePathSegments | null
 ) => {
   return {
     url: url(

@@ -4,9 +4,24 @@ import { db } from "@/db"
 import { Session, User } from "@/server/auth/base"
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 
-export interface TRPCAppFetchHandlerContext {
-  req: Request
-  resHeaders: Headers
+/**
+ * This interface represents contexts supplied via the handler for the trpc
+ * router. A handler is any means for instantiating access to the procedures
+ * defined on the trpc router, and can be one of the following:
+ * - http handler e.g. fetchRequestHandler
+ * - createCaller()
+ * - createServerSideHelpers() ... and so on
+ *
+ * Based on this, We make sure to specify context values that won't always be
+ * available as optional. For example, http based context values `req` and
+ * `resHeaders` may not necessarily be available when accessing the procedure
+ * via `createCaller()` or helpers from `createServerSideHelpers()`.
+ */
+export interface AppTRPCHandlerSuppliedContext {
+  db: typeof db
+  handler: "http" | "server" // The handler calling the procedure
+  req?: Request
+  resHeaders?: Headers
 }
 
 /**
@@ -14,27 +29,19 @@ export interface TRPCAppFetchHandlerContext {
  * context. This is used to constrain the context properties returned by various
  * middlewares to avoid different middlewares defining the same context under
  * different property names e.g `req` and `request`.
- *
- * We also make sure to make all of these optional as we'll only be including
- * the properties as needed using middlewares. The only context that is supplied
- * via an adapter are the http related ones (`req` and `resHeaders`) but even
- * these might not be supplied when invoking a procedure via server-side callers
- * or server-side helpers.
- * @link https://trpc.io/docs/server/server-side-calls
- * @link https://trpc.io/docs/client/nextjs/server-side-helpers
- * @link https://trpc.io/docs/server/context#inner-and-outer-context
  */
-export interface TRPCAppContext extends Partial<TRPCAppFetchHandlerContext> {
+export interface AppTRPCContext extends AppTRPCHandlerSuppliedContext {
   reqCookies?: Record<string, string>
-  db?: typeof db
-  auth?: { user: User; session: Session } | { user: null; session: null }
+  auth?: { user: User; session: Session } | null
 }
 
 export function createFetchHandlerContext(
   options: FetchCreateContextFnOptions
-): TRPCAppFetchHandlerContext {
+) {
   return {
+    db,
+    handler: "http",
     req: options.req,
     resHeaders: options.resHeaders
-  }
+  } satisfies AppTRPCHandlerSuppliedContext
 }

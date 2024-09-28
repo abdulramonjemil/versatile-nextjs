@@ -7,9 +7,9 @@ import { createTRPCReact } from "@trpc/react-query"
 import { trpcProcedureRoute } from "@/shared/routes"
 import { useState } from "react"
 import { makeQueryClient } from "./shared"
-import type { TRPCAppRouter } from "./server"
+import type { AppTRPCRouter } from "./server"
 
-export const trpc = createTRPCReact<TRPCAppRouter>()
+export const trpc = createTRPCReact<AppTRPCRouter>()
 
 let browserQueryClient: QueryClient
 function getQueryClient() {
@@ -26,7 +26,7 @@ function getQueryClient() {
   return browserQueryClient
 }
 
-export function TRPCAppProvider(
+export function AppTRPCProvider(
   props: Readonly<{
     children: React.ReactNode
   }>

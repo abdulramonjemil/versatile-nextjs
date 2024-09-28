@@ -1,3 +1,5 @@
+import "server-only"
+
 import { baseProcedure, router } from "@/trpc/base"
 
 const testGreetingProcedure = baseProcedure.query(() => ({

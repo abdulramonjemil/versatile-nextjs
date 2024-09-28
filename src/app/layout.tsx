@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/clientx/theme"
-import { TRPCAppProvider } from "@/trpc/clientx"
+import { AppTRPCProvider } from "@/trpc/clientx"
 
 import "./globals.css"
 
@@ -24,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <TRPCAppProvider>
+        <AppTRPCProvider>
           <ThemeProvider>{children}</ThemeProvider>
-        </TRPCAppProvider>
+        </AppTRPCProvider>
       </body>
     </html>
   )

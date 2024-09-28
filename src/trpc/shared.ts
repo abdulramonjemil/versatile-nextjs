@@ -1,6 +1,6 @@
 import { defaultShouldDehydrateQuery, QueryClient } from "@tanstack/react-query"
 import type { DeepKeyPaths } from "@/lib/types"
-import type { TRPCAppRouter } from "./server"
+import type { AppTRPCRouter } from "./server"
 
 /**
  * While it looks like this should be a client only function, it can actually be
@@ -56,8 +56,8 @@ export type TRPCRouterProceduresShape<R extends TRPCRouter> =
   TRPCProcedureGroupShape<R["_def"]["procedures"]>
 
 // A union of tuples where each tuple is the segments for each procedure
-export type TRPCAppRouterProcedurePathSegments = DeepKeyPaths<
-  TRPCRouterProceduresShape<TRPCAppRouter>
+export type AppTRPCRouterProcedurePathSegments = DeepKeyPaths<
+  TRPCRouterProceduresShape<AppTRPCRouter>
 >
 
 /**
@@ -66,6 +66,6 @@ export type TRPCAppRouterProcedurePathSegments = DeepKeyPaths<
  * `procedurePath(["auth", "login"])`. Passing a wrong path will cause
  * TypeScript to throw a compilation error
  */
-export function procedurePath(segments: TRPCAppRouterProcedurePathSegments) {
+export function procedurePath(segments: AppTRPCRouterProcedurePathSegments) {
   return segments.join(".")
 }

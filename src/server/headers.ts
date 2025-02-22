@@ -6,5 +6,5 @@ import { HeaderGetter } from "@/shared/headers"
 export const setCookieHeader = ((
   ...params: Parameters<typeof cookie.serialize>
 ) => {
-  return { name: "Set-Cookie", value: cookie.serialize(...params) }
+  return { name: "Set-Cookie" as const, value: cookie.serialize(...params) }
 }) satisfies HeaderGetter
